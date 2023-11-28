@@ -1,3 +1,4 @@
+//SPDX-License-Identifier: MIT
 pragma solidity >=0.5.0; 
 contract StudentContract {
     uint public studentNumber ;
@@ -16,4 +17,5 @@ contract StudentContract {
     function getStudentNumber() public view returns (uint) {
         return studentNumber;
     }
+
 }
