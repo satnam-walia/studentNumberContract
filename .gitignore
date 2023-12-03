@@ -1,4 +1,4 @@
-build
+build/contracts/
 node_modules
 package.json
 package-lock.json
