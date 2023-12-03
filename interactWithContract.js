@@ -1,7 +1,7 @@
 const Web3 = require('web3');
 const contractArtifact = require('./build/contracts/StudentContract.json'); // Adjust the path as necessary
 
-const web3 = new Web3('http://localhost:7545'); // The address of your Ethereum client
+const web3 = new Web3('HTTP://127.0.0.1:7545'); // The address of your Ethereum client
 
 const abi = contractArtifact.abi;
 const networkId = '5777'; // Replace with the actual network ID used for deployment
@@ -14,7 +14,7 @@ if (contractArtifact.networks[networkId]) {
   const studentContract = new web3.eth.Contract(abi, contractAddress);
 
   // Replace with your account address and desired student number
-  const account = '0xD268846E08737D99aA457911fe97429B83abB4dD';
+  const account = '0x58BA1fc7CB0216f3fBC430ab928c845063E51091';
   const studentNumber = 12345; // Replace with the desired student number
   const etherToSend = web3.utils.toWei('0.0054', 'ether'); // Convert 0.0054 ETH to Wei
 
