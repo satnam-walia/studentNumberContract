@@ -18,12 +18,6 @@ contract PubSubContract {
     // Event to be emitted when a message is received
     event MessageReceived(string topic, string message, address indexed subscriber);
 
-    // Allow publishers to advertise a topic
-    function advertise(string memory topicName) public {
-        Topic storage t = topics[topicName];
-        t.name = topicName;
-        t.publishers.push(msg.sender);
-    }
 
     // Check if subscribers can afford the message fee
     function canSubscribersAffordIt(string memory topicName) private view returns (bool){
@@ -35,6 +29,19 @@ contract PubSubContract {
             }
         }
         return true;
+    }
+    
+    // Allow publishers to advertise a topic
+    function advertise(string memory topicName) public {
+        Topic storage t = topics[topicName];
+        t.name = topicName;
+        // check if msg.send already in t.publishers
+        for (uint i = 0; i < t.publishers.length; i++) {
+            if (t.publishers[i] == msg.sender) {
+                return;
+            }
+        }
+        t.publishers.push(msg.sender);
     }
 
     // Allow publishers to publish a message to a topic
@@ -69,8 +76,15 @@ contract PubSubContract {
     function subscribe(string memory topicName) public payable {
         require(msg.value == 0.5 ether, "Subscription requires exactly 0.5 ether");
         Topic storage t = topics[topicName];
-        t.subscribers.push(msg.sender);
         t.subscriberToBalance[msg.sender] = msg.value;
+
+        // check if msg.sender already in t.subs before adding
+        for (uint i = 0; i < t.subscribers.length; i++) {
+            if (t.subscribers[i] == msg.sender) {
+                return;
+            }
+        }
+        t.subscribers.push(msg.sender);
     }
 
     // Function to allow a user to unsubscribe from a topic
