@@ -31,7 +31,6 @@ const main = async () => {
     contract.methods.advertise(topic).send({from: addr}).then(function(receipt){
         console.log(receipt);
         userPublishFromPrompt(addr, topic);
-        
     });
 };
 
