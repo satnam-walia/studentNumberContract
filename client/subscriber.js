@@ -39,10 +39,17 @@ function setupClient(addr){
 
 
 const main = async () => {
-    // address, topic
+    // address, topic, [operation]
     const args = process.argv.slice(2);
     addr = args[0];
     topic = args[1];
+    if(args[2] == 'unsubscribe'){
+        // call unsubscribe contract method
+        contract.methods.unsubscribe(topic).send({ from: addr }).then(function (receipt) {
+            console.log(receipt);
+        });
+        return;
+    }
     const client = setupClient(addr);
     // call subscribe contract method
     contract.methods.subscribe(topic).send({ from: addr, value: web3.utils.toWei('0.5', 'ether') }).then(function (receipt) {
